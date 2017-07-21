@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class GameController : MonoBehaviour
 {
@@ -8,16 +11,24 @@ public class GameController : MonoBehaviour
     public float startWait;
     public float waveWait;
     public int spawnCount;
+    public Text scoreText;
+    public Text endText;
+    public GameObject restartButton;
     public GameObject spawnObject;
     public Vector3 spawnValues;
 
+    private int score;
+
     void Start()
     {
-       
+        score = 0;
+        UpdateScore();
+        endText.enabled = false;
+        restartButton.SetActive(false);
         StartCoroutine(SpawnWaves());
     }
 
-	IEnumerator SpawnWaves()
+    IEnumerator SpawnWaves()
     {
         yield return new WaitForSeconds(startWait);
         while (true)
@@ -33,5 +44,28 @@ public class GameController : MonoBehaviour
             }
             yield return new WaitForSeconds(waveWait);
         }
+    }
+
+    public void AddScore(int newScoreValue)
+    {
+        score += newScoreValue;
+        UpdateScore();
+    }
+
+    void UpdateScore()
+    {
+        scoreText.text = "Очки: " + score;
+    }
+
+    public void EndGame()
+    {
+        endText.enabled = true;
+        restartButton.SetActive(true);
+    }
+
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
