@@ -5,6 +5,9 @@ using UnityEngine;
 public class DestroyByContact : MonoBehaviour {
 
     public int scoreValue;
+    public GameObject deathParticle;
+    public GameObject targetParticle;
+
 
     private GameController gameController;
 
@@ -23,11 +26,17 @@ public class DestroyByContact : MonoBehaviour {
         }
 
         if (other.gameObject.CompareTag("Player"))
+        {
             gameController.EndGame();
-
+            if (targetParticle != null)
+                Instantiate(targetParticle, other.transform.position, Quaternion.identity);
+        }
 
         if (other.gameObject.CompareTag("Lazer"))
             gameController.AddScore(scoreValue);
+
+        if (deathParticle != null)
+            Instantiate(deathParticle, transform.position, Quaternion.identity);
 
         Destroy(other.gameObject);
         Destroy(gameObject);
