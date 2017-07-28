@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     public Text scoreText;
     public Text endText;
     public GameObject restartButton;
-    public GameObject spawnObject;
+    public GameObject[] spawnObjects;
     public Vector3 spawnValues;
 
     private int score;
@@ -35,11 +35,15 @@ public class GameController : MonoBehaviour
         {
             for (int i = 0; i < spawnCount; i++)
             {
+
+                GameObject spawnObject = spawnObjects[Random.Range(0, spawnObjects.Length)];
                 Vector3 spawnPosition = new Vector3(
                     Random.Range(-spawnValues.x, spawnValues.x),
                     spawnValues.y,
                     spawnValues.z);
                 Instantiate(spawnObject, spawnPosition, Quaternion.identity);
+                
+                    
                 yield return new WaitForSeconds(spawnWait);
             }
             yield return new WaitForSeconds(waveWait);

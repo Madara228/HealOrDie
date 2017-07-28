@@ -38,7 +38,15 @@ public class DestroyByContact : MonoBehaviour {
         if (deathParticle != null)
             Instantiate(deathParticle, transform.position, Quaternion.identity);
 
-        Destroy(other.gameObject);
+        if (other.gameObject.CompareTag("Station"))
+        {
+            other.gameObject.GetComponent<StationController>().State--;
+        }
+        else
+        {
+            Destroy(other.gameObject);
+        }
+        
         Destroy(gameObject);
     }
 }
